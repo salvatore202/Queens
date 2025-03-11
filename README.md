@@ -1,4 +1,4 @@
-Queens - N-Queens Problem Solutions
+# Queens - N-Queens Problem Solutions
 Welcome to the Queens repository! Here you will find an implementation to solve the classic N-Queens Problem, which consists of placing N queens on an N×N chessboard such that no two queens can attack each other. The problem is solved using a search and exploration approach.
 
 Repository Contents 📂
