@@ -1,0 +1,177 @@
+/*
+ * node2_implementation.template
+ *
+ *  Created on: 11 ott 2023
+ *      Author: salva
+ */
+
+#include "node2.h"
+#include <iostream>
+#include <cassert>
+
+template <class item>
+void linked_list::list_head_remove(linked_list::node<item>*& head_ptr)
+{
+
+	linked_list::node<item>* remove_ptr;
+
+	remove_ptr = head_ptr;
+	head_ptr = head_ptr->link();  //head_ptr punta all'elemento successivo della lista
+	delete remove_ptr;
+}
+// PRECONDITION: "head_ptr" deve essere un nodo
+// POSTCONDITION: un nodo della lista viene rimosso
+
+
+
+
+template <class item>
+void linked_list::list_head_insert(linked_list::node<item>*& head_ptr, const item& entry)
+{
+	head_ptr= new linked_list::node<item>(entry, head_ptr);
+}
+// PRECONDITION: head_ptr è il puntatore alla testa della lista e entry è un valore "item"
+// POSTCONDITION:: viene inserito un nuovo nodo in testa
+
+
+
+
+template <class item>
+linked_list::node<item>* linked_list::list_search(linked_list::node<item>* head_ptr, const item& target)
+{
+
+	linked_list::node<item>* cursor;
+
+	for( cursor = head_ptr; cursor!=NULL; cursor=cursor->link())
+		if ( target == cursor->data())
+			return cursor;
+	return NULL;
+}
+//	PRECONDITION: head_ptr è il puntatore alla testa della lista e target è l'elemento che si desidera cercare
+//	POSTCONDITION: ritorna un puntatore "cursor" al primo nodo che contiene l'elemento cercato
+
+
+
+template <class item>
+std::size_t linked_list::list_length(const linked_list::node<item>* head_ptr)
+{
+
+	const linked_list::node<item>* cursor;
+	std::size_t answer=0;
+
+	for(cursor=head_ptr; cursor!=NULL; cursor=cursor->link())
+		++answer;
+
+	return answer;
+}
+// PRECONDITION: head_ptr è il puntatore alla testa della lista
+// POSTCONDITION: ritorna il numero di nodi della lista
+
+
+
+template <class item>
+void linked_list::list_clear(linked_list::node<item>*& head_ptr)
+{
+
+	while(head_ptr!=NULL)
+		linked_list::list_head_remove(head_ptr);
+
+}
+// PRECONDITION: head_ptr è il puntatore alla testa della lista
+// POSTCONDITION: la lista viene svuotata
+
+
+
+template <class item>
+void linked_list::list_print_all(const linked_list::node<item>* head_ptr)
+{
+	const linked_list::node<item>* cursor;
+	for(cursor=head_ptr; cursor!=NULL; cursor=cursor->link())
+		std::cout<<cursor->data()<<"\n";
+}
+// PRECONDITION: head_ptr è il puntatore alla testa della lista
+// POSTCINDITION: lla lista viene stampata
+
+
+
+
+template <class item>
+void linked_list::list_insert(linked_list::node<item>* previous_ptr, const item& entry)
+{
+	linked_list::node<item>* insert_ptr;
+
+	insert_ptr = new linked_list::node<item>;
+	insert_ptr->set_data(entry);
+	insert_ptr->set_link(previous_ptr->link());
+
+	previous_ptr->set_link(insert_ptr);
+}
+//POSTCONDITION: inserisce un nodo NON in testa
+
+
+
+
+template <class item>
+void linked_list::list_tail_insert(linked_list::node<item>*& head_ptr, linked_list::node<item>*& tail_ptr, const item& entry)
+{
+	if(linked_list::list_length(head_ptr)==0)
+	{
+		linked_list::list_head_insert(head_ptr, entry);
+		tail_ptr=head_ptr;
+	}
+	else
+	{
+		linked_list::list_insert(tail_ptr, entry);
+		tail_ptr=tail_ptr->link();
+	}
+}
+//PRECONDITION: head_ptr deve puntare alla testa e tail_ptr deve puntare alla coda della lista
+//POSTCONDITION: inserisce in coda un nodo alla lista
+
+
+
+template <class item>
+void linked_list::list_copy(const linked_list::node<item>*source_ptr, linked_list::node<item>*& head_ptr, linked_list::node<item>*& tail_ptr)
+{
+	head_ptr=NULL;
+	tail_ptr=NULL;
+
+	if(source_ptr==NULL)
+		return;
+
+	linked_list::list_head_insert(head_ptr, source_ptr->data());
+	tail_ptr=head_ptr;
+
+	source_ptr=source_ptr->link();
+
+	while(source_ptr != NULL)
+	{
+		linked_list::list_insert(tail_ptr, source_ptr->data());
+		tail_ptr=tail_ptr->link();
+		source_ptr=source_ptr->link();
+	}
+}
+
+
+
+template <class item>
+linked_list::node<item>* linked_list::list_locate(linked_list::node<item>* head_ptr, std::size_t position)
+{
+	linked_list::node<item>* cursor;
+	std::size_t i;
+
+	assert(0<position);
+
+	cursor=head_ptr;
+	for(i=1; (i<position) && (cursor!=NULL); ++i)
+		cursor=cursor->link();
+
+	return cursor;
+}
+//PRECONDITION: head_ptr è il puntatore alla testa della lista e position è >0
+//POSTCONDITION: ritorna un puntatore ad un nodo nella posizione ( position ) della lista
+
+
+
+
+

@@ -1,0 +1,91 @@
+/*
+ * stack2_implementation.template
+ *
+ *  Created on: 11 ott 2023
+ *      Author: salva
+ */
+
+
+
+
+#include <cassert>
+#include "node2.h"
+#include "stack2.h"
+
+
+template <class item>
+stack<item>::stack(const stack<item>& source)
+{
+	linked_list::node<item>* tail_ptr;
+
+	linked_list::list_copy(source.top_ptr, top_ptr, tail_ptr);
+}
+//COSTRUTTORE DI COPIA
+
+
+
+template <class item>
+void stack<item>::push(const item& entry)
+{
+	linked_list::list_head_insert(top_ptr, entry);
+}
+//POSTCONDITION: viene inserito un elemento nello stack
+
+
+
+template <class item>
+void stack<item>::pop()
+{
+	assert(!empty());  //controllo stack underflow
+
+	linked_list::list_head_remove(top_ptr);
+}
+//PRECONDITION: lo stack ha almeno un elemento
+//POSTCONDITION: viene rimosso un elemento
+
+
+
+template <class item>
+void stack<item>::operator =(const stack<item>& source)
+{
+	linked_list::node<item>* tail_ptr;
+
+	if(this == &source)  //controllo auto-assegnazione
+		return;
+
+	linked_list::list_clear(top_ptr);
+	linked_list::list_copy(source.top_ptr, top_ptr, tail_ptr);
+}
+//OVERLOAD OPERATORE =
+//POSTCONDITION: viene effettuata l'operazione identità
+
+
+
+template <class item>
+item stack<item>::top() const
+{
+	assert(!empty());  //controllo stack underflow
+
+	return top_ptr->data();
+}
+//PRECCONDITION: lo stack contiene almeno un elemento
+//POSTCONDITION: viene restituito l'elemento aul top dello stack
+
+
+template <class item>
+item stack<item>::seek(size_t n) const
+{
+	assert(n<size());
+
+	linked_list::node<item>* cursor=top_ptr;
+
+	for(unsigned int i=0; i<n;++i)
+		cursor=cursor->link();
+
+	return cursor->data();
+}
+
+
+
+
+

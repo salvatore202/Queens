@@ -1,0 +1,45 @@
+/*
+ * stack1.template
+ *
+ *  Created on: 27 gen 2024
+ *      Author: salva
+ */
+
+
+
+#include <cassert>
+namespace main_savitch_7A
+{
+    template<class Item>
+    const typename stack<Item>::size_type stack<Item>::CAPACITY;
+
+    template <class Item>
+    void stack<Item>::push(const Item& entry)
+    {
+        assert(size()<CAPACITY);
+        data[used]=entry;
+        ++used;
+    }
+
+    template <class Item>
+    void stack<Item>::pop()
+    {
+        assert(!empty());
+        --used;
+    }
+
+    template <class Item>
+    Item stack<Item>::top() const
+    {
+        assert(!empty());
+        return data[used-1];
+
+    }
+
+    template <class Item>
+    Item stack<Item>::seek(std::size_t n) const
+    {
+         assert(n<size());
+             return data[(used-1)-n];
+    }
+}
